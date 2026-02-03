@@ -42,7 +42,12 @@ dependencies {
     implementation(platform("androidx.room:room-runtime:2.1.0"))
     implementation("androidx.room:room-runtime")
 
+    implementation(platform("androidx.work:work-runtime:2.2.0"))
+    implementation("androidx.work:work-runtime")
 
+
+    implementation(platform("androidx.room:room-compiler:2.1.0"))
+    implementation("androidx.room:room-compiler")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

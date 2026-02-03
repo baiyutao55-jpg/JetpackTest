@@ -3,12 +3,14 @@ package com.example.jetpacktest
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
     lateinit var viewModel:MainViewModel
@@ -51,8 +53,26 @@ class MainActivity : AppCompatActivity() {
         sp.edit{
             putInt("count_reserved",viewModel.counter.value?:0)
         }
+val userDao= AppDatabase.getDatabase(this).userDao()
+        val user1= User("Tom","Brady",40)
+        val user2=User("Tom","Hanks",63)
+        val addDataBtn=findViewById<Button>(R.id.addDataBtn)
+        addDataBtn.setOnClickListener {
+            thread{
+                user1.id= userDao.insertUser(user1)
+                user2.id= userDao.insertUser(user2)
+            }
 
+        }
 
+        val queryDataBtn=findViewById<Button>(R.id.queryDataBtn)
+        queryDataBtn.setOnClickListener {
+            thread {
+              for(user in userDao.loadAllUsers()){
+                  Log.d("MainActivity",user.toString())
+              }
+            }
+        }
     }
 
     private fun refreshCounter(){
